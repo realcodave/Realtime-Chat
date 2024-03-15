@@ -5,6 +5,7 @@ from . views import (
     ChatRoomListCreate, ChatRoomRetrieveUpdate,
     MessageListCreate, MessageRetrieveUpdate,
     ParticipantListCreate, ParticpantRetrieveUpdate,
+    UserSignUp
 )
 
 urlpatterns = [
@@ -20,4 +21,6 @@ urlpatterns = [
     # Participant Url
     path('participants/', ParticipantListCreate.as_view(), name="participants-list-create"),
     path('participants/<int:pk>', ParticpantRetrieveUpdate.as_view(), name="participants-retrieve-update"),
+    # SignUp Url
+    path('signup/', UserSignUp.as_view(), name="signup"),
 ]

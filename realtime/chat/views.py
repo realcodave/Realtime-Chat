@@ -1,8 +1,11 @@
 # from django.shortcuts import render
 from rest_framework import generics
 from .models import CustomUser, Profile, ChatRoom, Message, Participant
-from .serializers import ProfileSerializer, ChatRoomSerializer, MessageSerializer, ParticipantSerializer
+from .serializers import ProfileSerializer, ChatRoomSerializer, MessageSerializer, ParticipantSerializer, UserSerializer
 # Create your views here.
+
+class UserSignUp(generics.CreateAPIView):
+    serializer_class = UserSerializer
 
 class ProfileListCreate(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
