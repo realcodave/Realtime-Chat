@@ -26,7 +26,7 @@ class ChatRoom(models.Model):
         ('G', 'Group'),
     ]
     name = models.CharField(max_length = 255, blank=True)
-    type = models.CharField(max_length=1, choice=CHAT_TYPES)
+    type = models.CharField(max_length=1, choices=CHAT_TYPES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     
@@ -35,7 +35,7 @@ class Message(models.Model):
     chat_room = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(defualt=False)
+    is_read = models.BooleanField(default=False)
     
 class Participant(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
