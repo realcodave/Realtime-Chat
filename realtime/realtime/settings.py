@@ -30,7 +30,10 @@ INSTALLED_APPS = [
     
     # My Installed Apps
     'chat',
+    # Installed Apps
     'rest_framework',
+    'rest_framework.authtoken',
+    
     'channels',
 ]
 
@@ -46,6 +49,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'realtime.urls'
 AUTH_USER_MODEL = 'chat.CustomUser'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES' : [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
 
 TEMPLATES = [
     {
