@@ -20,7 +20,7 @@ class ChatRoomRetrieveUpdate(generics.RetrieveUpdateAPIView):
     queryset = ChatRoom.objects.all()
     serializer_class = ChatRoomSerializer
     
-class MessageListCreat(generics.ListCreateAPIView):
+class MessageListCreate(generics.ListCreateAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
     
