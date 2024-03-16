@@ -34,3 +34,11 @@ class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
         fields = '__all__'
+        
+        
+from djoser.serializers import UserCreateSerializer
+
+class MyUserCreateSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        fields = ["id", "email", "first_name", "last_name", "username", "password"]
+        
