@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h2>User Login</h2>
+    <form id="login-form">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <br>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#login-form').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                var username = $('#username').val();
+                var password = $('#password').val();
+                var csrftoken = getCookie('csrftoken'); // Retrieve CSRF token
+
+                // Send POST request to login endpoint
+                $.ajax({
+                    url: '/api/login/',
+                    method: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    headers: {
+                        'X-CSRFToken': csrftoken // Include CSRF token in request headers
+                    },
+                    success: function(response) {
+                        // Authentication successful
+                        var token = response.token;
+                        console.log('Authentication successful. Token:', token);
+                        // Store token in localStorage
+                        localStorage.setItem('token', token);
+
+                        // Redirect user to another page or perform other actions
+                        window.location.href = '/'; // Example: Redirect to dashboard page
+                    },
+                    error: function(xhr, status, error) {
+                        // Authentication failed
+                        console.error('Authentication failed:', xhr.responseText);
+                        // Display error message to the user
+                        alert('Login failed. Please check your credentials.');
+                    }
+                });
+            });
+
+            // Function to retrieve CSRF token from cookie
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+        });
+
+        // Add token to headers of subsequent AJAX requests
+        $(document).ajaxSend(function(event, xhr, settings) {
+            var token = localStorage.getItem('token');
+            console.log('Token from localStorage:', token);
+            if (token && !settings.headers.Authorization) {
+                console.log('Setting Authorization header with token:', token); // Debug statement
+                settings.headers['Authorization'] = 'Token ' + token;
+            }
+        });
+    </script>
+</body>
+</html>
